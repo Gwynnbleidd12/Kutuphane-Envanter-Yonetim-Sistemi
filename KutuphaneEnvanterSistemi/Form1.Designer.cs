@@ -31,21 +31,23 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
-            tabPage3 = new TabPage();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            textBox4 = new TextBox();
-            textBox5 = new TextBox();
-            label6 = new Label();
             button1 = new Button();
+            label6 = new Label();
+            txtStok = new TextBox();
+            txtYayinYili = new TextBox();
+            txtYayinevi = new TextBox();
+            txtYazar = new TextBox();
+            txtAd = new TextBox();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            tabPage3 = new TabPage();
+            dgvKitaplar = new DataGridView();
             tabControl1.SuspendLayout();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvKitaplar).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -71,13 +73,14 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(dgvKitaplar);
             tabPage2.Controls.Add(button1);
             tabPage2.Controls.Add(label6);
-            tabPage2.Controls.Add(textBox5);
-            tabPage2.Controls.Add(textBox4);
-            tabPage2.Controls.Add(textBox3);
-            tabPage2.Controls.Add(textBox2);
-            tabPage2.Controls.Add(textBox1);
+            tabPage2.Controls.Add(txtStok);
+            tabPage2.Controls.Add(txtYayinYili);
+            tabPage2.Controls.Add(txtYayinevi);
+            tabPage2.Controls.Add(txtYazar);
+            tabPage2.Controls.Add(txtAd);
             tabPage2.Controls.Add(label5);
             tabPage2.Controls.Add(label4);
             tabPage2.Controls.Add(label3);
@@ -91,95 +94,15 @@
             tabPage2.Text = "Kitap Yonetimi";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // button1
             // 
-            tabPage3.Location = new Point(4, 29);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(806, 423);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "Odunc ve Iade Islemleri";
-            tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(15, 51);
-            label1.Name = "label1";
-            label1.Size = new Size(39, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Ad : ";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(15, 91);
-            label2.Name = "label2";
-            label2.Size = new Size(51, 20);
-            label2.TabIndex = 1;
-            label2.Text = "Yazar :";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(15, 129);
-            label3.Name = "label3";
-            label3.Size = new Size(69, 20);
-            label3.TabIndex = 2;
-            label3.Text = "Yayinevi :";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(15, 166);
-            label4.Name = "label4";
-            label4.Size = new Size(74, 20);
-            label4.TabIndex = 3;
-            label4.Text = "Yayin Yili: ";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(15, 200);
-            label5.Name = "label5";
-            label5.Size = new Size(45, 20);
-            label5.TabIndex = 4;
-            label5.Text = "Stok :";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(147, 51);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(125, 27);
-            textBox1.TabIndex = 5;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(147, 84);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(125, 27);
-            textBox2.TabIndex = 6;
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(147, 129);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(125, 27);
-            textBox3.TabIndex = 7;
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(147, 166);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(125, 27);
-            textBox4.TabIndex = 8;
-            // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(147, 200);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(125, 27);
-            textBox5.TabIndex = 9;
+            button1.Location = new Point(62, 261);
+            button1.Name = "button1";
+            button1.Size = new Size(134, 29);
+            button1.TabIndex = 11;
+            button1.Text = "Kitap Ekle";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label6
             // 
@@ -190,14 +113,104 @@
             label6.TabIndex = 10;
             label6.Text = "1- KITAP BILGILERI";
             // 
-            // button1
+            // txtStok
             // 
-            button1.Location = new Point(62, 261);
-            button1.Name = "button1";
-            button1.Size = new Size(134, 29);
-            button1.TabIndex = 11;
-            button1.Text = "Kitap Ekle";
-            button1.UseVisualStyleBackColor = true;
+            txtStok.Location = new Point(147, 200);
+            txtStok.Name = "txtStok";
+            txtStok.Size = new Size(125, 27);
+            txtStok.TabIndex = 9;
+            // 
+            // txtYayinYili
+            // 
+            txtYayinYili.Location = new Point(147, 166);
+            txtYayinYili.Name = "txtYayinYili";
+            txtYayinYili.Size = new Size(125, 27);
+            txtYayinYili.TabIndex = 8;
+            // 
+            // txtYayinevi
+            // 
+            txtYayinevi.Location = new Point(147, 129);
+            txtYayinevi.Name = "txtYayinevi";
+            txtYayinevi.Size = new Size(125, 27);
+            txtYayinevi.TabIndex = 7;
+            // 
+            // txtYazar
+            // 
+            txtYazar.Location = new Point(147, 84);
+            txtYazar.Name = "txtYazar";
+            txtYazar.Size = new Size(125, 27);
+            txtYazar.TabIndex = 6;
+            // 
+            // txtAd
+            // 
+            txtAd.Location = new Point(147, 51);
+            txtAd.Name = "txtAd";
+            txtAd.Size = new Size(125, 27);
+            txtAd.TabIndex = 5;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(15, 200);
+            label5.Name = "label5";
+            label5.Size = new Size(45, 20);
+            label5.TabIndex = 4;
+            label5.Text = "Stok :";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(15, 166);
+            label4.Name = "label4";
+            label4.Size = new Size(74, 20);
+            label4.TabIndex = 3;
+            label4.Text = "Yayin Yili: ";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(15, 129);
+            label3.Name = "label3";
+            label3.Size = new Size(69, 20);
+            label3.TabIndex = 2;
+            label3.Text = "Yayinevi :";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(15, 91);
+            label2.Name = "label2";
+            label2.Size = new Size(51, 20);
+            label2.TabIndex = 1;
+            label2.Text = "Yazar :";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(15, 51);
+            label1.Name = "label1";
+            label1.Size = new Size(39, 20);
+            label1.TabIndex = 0;
+            label1.Text = "Ad : ";
+            // 
+            // tabPage3
+            // 
+            tabPage3.Location = new Point(4, 29);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(806, 423);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Odunc ve Iade Islemleri";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dgvKitaplar
+            // 
+            dgvKitaplar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvKitaplar.Location = new Point(406, 51);
+            dgvKitaplar.Name = "dgvKitaplar";
+            dgvKitaplar.RowHeadersWidth = 51;
+            dgvKitaplar.Size = new Size(300, 188);
+            dgvKitaplar.TabIndex = 12;
             // 
             // Form1
             // 
@@ -210,6 +223,7 @@
             tabControl1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvKitaplar).EndInit();
             ResumeLayout(false);
         }
 
@@ -221,15 +235,16 @@
         private TabPage tabPage3;
         private Button button1;
         private Label label6;
-        private TextBox textBox5;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox txtStok;
+        private TextBox txtYayinYili;
+        private TextBox txtYayinevi;
+        private TextBox txtYazar;
+        private TextBox txtAd;
         private Label label5;
         private Label label4;
         private Label label3;
         private Label label2;
         private Label label1;
+        private DataGridView dgvKitaplar;
     }
 }
