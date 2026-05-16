@@ -30,7 +30,7 @@ namespace KutuphaneEnvanterSistemi
 
                 yonetici.KitapEkle(yeniKitap);
 
-                MessageBox.Show("Kitap başarıyla envantere eklendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Kitabı envantere eklediniz", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 txtAd.Clear();
                 txtYazar.Clear();
@@ -41,11 +41,11 @@ namespace KutuphaneEnvanterSistemi
 
                 ListeyiGuncelle();
 
-                yonetici.VerileriKaydet(); 
+                yonetici.VerileriKaydet();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lütfen alanları kontrol edin.\n\nHata: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Alanları kontrol edip tekrar denesen iyi olur dostum.\n\nHata: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void ListeyiGuncelle()
@@ -77,16 +77,28 @@ namespace KutuphaneEnvanterSistemi
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            yonetici.VerileriYukle(); 
-            ListeyiGuncelle();        
+            yonetici.VerileriYukle();
+            ListeyiGuncelle();
         }
 
 
         private void btnAra_Click(object sender, EventArgs e)
         {
+            // --- ÖZEL EASTER EGG ---
+            if (txtIslem.Text.ToLower() == "schecter" || txtIslem.Text.ToLower() == "focusrite")
+            {
+                MessageBox.Show("Geliştirici Notu: Kod yazmaktan parmaklar yorulduysa, biraz gitar çalma vakti gelmiştir! \n\n- Burak",
+                                "Gizli Mesaj Bulundu!",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Asterisk);
+                txtIslem.Clear();
+                return;
+            }
+            
+
             if (string.IsNullOrWhiteSpace(txtIslem.Text))
             {
-                MessageBox.Show("Lütfen aramak istediğiniz kitabın adını girin.");
+                MessageBox.Show("Öncelikle bir kitap ismi eklesen iyi olur");
                 ListeyiGuncelle();
                 return;
             }
@@ -95,13 +107,13 @@ namespace KutuphaneEnvanterSistemi
 
             if (bulunan != null)
             {
-                
+
                 dgvKitaplar.Rows.Clear();
                 dgvKitaplar.Rows.Add(bulunan.Veri.Ad, bulunan.Veri.Yazar, bulunan.Veri.Yayinevi, bulunan.Veri.YayinYili, bulunan.Veri.Stok);
             }
             else
             {
-                MessageBox.Show("Kitap envanterde bulunamadı!", "Sonuç", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Envanterde senin kitabı bulamadık kingo", "Sonuç", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -109,23 +121,23 @@ namespace KutuphaneEnvanterSistemi
         {
             if (string.IsNullOrWhiteSpace(txtIslem.Text))
             {
-                MessageBox.Show("Lütfen silmek istediğiniz kitabın adını girin.");
+                MessageBox.Show("Silmek istediğin kitabın adını gir lütfen.");
                 return;
             }
 
-            
+
             bool silindiMi = yonetici.KitapSil(txtIslem.Text);
 
             if (silindiMi)
             {
-                yonetici.VerileriKaydet(); 
-                ListeyiGuncelle();         
-                MessageBox.Show("Kitap sistemden başarıyla silindi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                yonetici.VerileriKaydet();
+                ListeyiGuncelle();
+                MessageBox.Show("Kitabı sistemden sildin", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtIslem.Clear();
             }
             else
             {
-                MessageBox.Show("Silinecek kitap bulunamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Silinecek kitap bul.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -133,11 +145,11 @@ namespace KutuphaneEnvanterSistemi
         {
             if (string.IsNullOrWhiteSpace(txtOduncKitapAdi.Text)) return;
 
-            
+
             string sonuc = yonetici.OduncAl(txtOduncKitapAdi.Text);
             MessageBox.Show(sonuc, "İşlem Sonucu");
 
-            
+
             yonetici.VerileriKaydet();
             ListeyiGuncelle();
             txtOduncKitapAdi.Clear();
@@ -158,34 +170,39 @@ namespace KutuphaneEnvanterSistemi
 
         private void btnGiris_Click(object sender, EventArgs e)
         {
-            
+
             if (txtKullaniciAdi.Text == "burak" && txtSifre.Text == "1207")
             {
                 girisYapildiMi = true;
-                MessageBox.Show("Sisteme başarıyla giriş yapıldı! Sekmeleri kullanabilirsiniz.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Giriş başarılı! Artık diğer sekmeleri kullanabilirsin rahatça!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-               
+
                 txtKullaniciAdi.Enabled = false;
                 txtSifre.Enabled = false;
                 btnGiris.Enabled = false;
             }
             else
             {
-                MessageBox.Show("Hatalı kullanıcı adı veya şifre!", "Giriş Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Hatalı kullanıcı adı veya şifre! Seni tanıyamadık kral", "Giriş Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            
+
             if (!girisYapildiMi && e.TabPageIndex != 0)
             {
-                e.Cancel = true; 
-                MessageBox.Show("Sistemi kullanabilmek için önce giriş yapmalısınız!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                e.Cancel = true;
+                MessageBox.Show("Giriş yapmadan burayı elleyemezsin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
         {
 
         }

@@ -69,15 +69,16 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
-            tabControl1.Location = new Point(-7, -4);
+            tabControl1.Location = new Point(0, 1);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(814, 456);
+            tabControl1.Size = new Size(814, 467);
             tabControl1.TabIndex = 0;
             tabControl1.Selecting += tabControl1_Selecting;
             // 
             // tabPage1
             // 
+            tabPage1.BackColor = Color.Crimson;
             tabPage1.Controls.Add(label9);
             tabPage1.Controls.Add(label8);
             tabPage1.Controls.Add(btnGiris);
@@ -86,14 +87,14 @@
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(806, 423);
+            tabPage1.Size = new Size(806, 434);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Kullanici Girisi";
-            tabPage1.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
             label9.AutoSize = true;
+            label9.BackColor = Color.White;
             label9.Location = new Point(107, 130);
             label9.Name = "label9";
             label9.Size = new Size(50, 20);
@@ -103,6 +104,8 @@
             // label8
             // 
             label8.AutoSize = true;
+            label8.BackColor = Color.White;
+            label8.ForeColor = SystemColors.Desktop;
             label8.Location = new Point(58, 74);
             label8.Name = "label8";
             label8.Size = new Size(99, 20);
@@ -137,6 +140,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.BackColor = Color.Crimson;
             tabPage2.Controls.Add(btnSil);
             tabPage2.Controls.Add(btnAra);
             tabPage2.Controls.Add(txtIslem);
@@ -156,10 +160,9 @@
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(806, 423);
+            tabPage2.Size = new Size(806, 434);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Kitap Yonetimi";
-            tabPage2.UseVisualStyleBackColor = true;
             tabPage2.Click += tabPage2_Click;
             // 
             // btnSil
@@ -291,6 +294,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.Crimson;
             label1.Location = new Point(15, 51);
             label1.Name = "label1";
             label1.Size = new Size(39, 20);
@@ -299,6 +303,7 @@
             // 
             // tabPage3
             // 
+            tabPage3.BackColor = Color.Crimson;
             tabPage3.Controls.Add(label7);
             tabPage3.Controls.Add(btnIadeEt);
             tabPage3.Controls.Add(btnOduncAl);
@@ -306,14 +311,15 @@
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(806, 423);
+            tabPage3.Size = new Size(806, 434);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Odunc ve Iade Islemleri";
-            tabPage3.UseVisualStyleBackColor = true;
+            tabPage3.Click += tabPage3_Click;
             // 
             // label7
             // 
             label7.AutoSize = true;
+            label7.BackColor = Color.White;
             label7.Location = new Point(15, 69);
             label7.Name = "label7";
             label7.Size = new Size(220, 20);
@@ -354,7 +360,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(tabControl1);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Izmir Bakircay Universitesi  Kutuphane Sistemi";
             Load += Form1_Load;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);

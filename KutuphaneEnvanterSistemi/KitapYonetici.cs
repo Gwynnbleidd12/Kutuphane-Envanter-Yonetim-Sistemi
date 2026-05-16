@@ -161,7 +161,7 @@ namespace KutuphaneEnvanterSistemi
                     return "Hata: Maalesef bu kitabın stoğu tükenmiş.";
                 }
             }
-            return "Hata: Sistemde böyle bir kitap bulunamadı.";
+            return "Hata: Sistemde böyle bir kitap bulamadık.";
         }
 
        
@@ -176,7 +176,7 @@ namespace KutuphaneEnvanterSistemi
 
                 return "Başarılı: Kitap iade edildi. Yeni Stok: " + dugum.Veri.Stok;
             }
-            return "Hata: Bu kitap envanterimize ait değil (Bulunamadı).";
+            return "Hata: Bu kitap envanterimize ait değil (Bulamadık).";
         }
     }
 }
