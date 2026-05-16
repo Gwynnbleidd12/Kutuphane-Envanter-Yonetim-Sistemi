@@ -79,6 +79,9 @@ namespace KutuphaneEnvanterSistemi
         {
             yonetici.VerileriYukle();
             ListeyiGuncelle();
+
+            button1.Enabled = false;
+            btnSil.Enabled = false;
         }
 
 
@@ -170,12 +173,27 @@ namespace KutuphaneEnvanterSistemi
 
         private void btnGiris_Click(object sender, EventArgs e)
         {
-
             if (txtKullaniciAdi.Text == "burak" && txtSifre.Text == "1207")
             {
                 girisYapildiMi = true;
-                MessageBox.Show("Giriş başarılı! Artık diğer sekmeleri kullanabilirsin rahatça!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Personel olarak giriş yaptınız. Tüm yetkiler açıldı, keyfinize bakın");
 
+                button1.Enabled = true; 
+                btnSil.Enabled = true;   
+                
+                txtKullaniciAdi.Enabled = false;
+                txtSifre.Enabled = false;
+                btnGiris.Enabled = false;
+            }
+            
+            else if (txtKullaniciAdi.Text == "polat" && txtSifre.Text == "1122")
+            {
+                girisYapildiMi = true;
+                MessageBox.Show("Öğrenci olarak giriş yaptınız. Kitap ödünç alabilir ya da iade edebilirsiniz.", "Kısıtlı Yetki", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                
+                button1.Enabled = false;
+                btnSil.Enabled = false;   
 
                 txtKullaniciAdi.Enabled = false;
                 txtSifre.Enabled = false;
@@ -183,7 +201,7 @@ namespace KutuphaneEnvanterSistemi
             }
             else
             {
-                MessageBox.Show("Hatalı kullanıcı adı veya şifre! Seni tanıyamadık kral", "Giriş Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Hatalı kullanıcı adı veya şifre! Seni tanıyamadık kral", "Hata");
             }
         }
 
