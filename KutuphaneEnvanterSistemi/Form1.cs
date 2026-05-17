@@ -5,6 +5,7 @@ namespace KutuphaneEnvanterSistemi
 {
     public partial class Form1 : Form
     {
+        string aktifKullanici = "Bilinmiyor";
 
         private KitapYonetici yonetici = new KitapYonetici();
 
@@ -42,6 +43,8 @@ namespace KutuphaneEnvanterSistemi
                 ListeyiGuncelle();
 
                 yonetici.VerileriKaydet();
+
+                IslemRaporla("Kitap Eklendi", txtAd.Text, txtStok.Text);
             }
             catch (Exception ex)
             {
@@ -82,6 +85,7 @@ namespace KutuphaneEnvanterSistemi
 
             button1.Enabled = false;
             btnSil.Enabled = false;
+            grpKullaniciYonetimi.Enabled = false;
         }
 
 
@@ -97,7 +101,7 @@ namespace KutuphaneEnvanterSistemi
                 txtIslem.Clear();
                 return;
             }
-            
+
 
             if (string.IsNullOrWhiteSpace(txtIslem.Text))
             {
@@ -137,6 +141,7 @@ namespace KutuphaneEnvanterSistemi
                 ListeyiGuncelle();
                 MessageBox.Show("Kitabı sistemden sildin", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtIslem.Clear();
+                IslemRaporla("Kitap Silindi", txtIslem.Text, "0");
             }
             else
             {
@@ -151,11 +156,14 @@ namespace KutuphaneEnvanterSistemi
 
             string sonuc = yonetici.OduncAl(txtOduncKitapAdi.Text);
             MessageBox.Show(sonuc, "İşlem Sonucu");
+            IslemRaporla("Ödünç Alındı", txtOduncKitapAdi.Text, "Güncellendi");
+
 
 
             yonetici.VerileriKaydet();
             ListeyiGuncelle();
             txtOduncKitapAdi.Clear();
+
         }
 
         private void btnIadeEt_Click(object sender, EventArgs e)
@@ -164,44 +172,72 @@ namespace KutuphaneEnvanterSistemi
 
             string sonuc = yonetici.IadeEt(txtOduncKitapAdi.Text);
             MessageBox.Show(sonuc, "İşlem Sonucu");
+            IslemRaporla("İade Edildi", txtOduncKitapAdi.Text, "Güncellendi");
 
             yonetici.VerileriKaydet();
             ListeyiGuncelle();
             txtOduncKitapAdi.Clear();
         }
 
+        private void IslemRaporla(string islemTuru, string kitapAdi, string kalanStok)
+        {
+            string logMetni = $"{aktifKullanici} | {islemTuru} | {kitapAdi} | Kalan Stok: {kalanStok}";
+            System.IO.File.AppendAllText("rapor.txt", logMetni + Environment.NewLine);
+        }
 
         private void btnGiris_Click(object sender, EventArgs e)
         {
-            if (txtKullaniciAdi.Text == "burak" && txtSifre.Text == "1207")
-            {
-                girisYapildiMi = true;
-                MessageBox.Show("Personel olarak giriş yaptınız. Tüm yetkiler açıldı, keyfinize bakın");
+            string yol = "kullanicilar.txt";
 
-                button1.Enabled = true; 
-                btnSil.Enabled = true;   
-                
-                txtKullaniciAdi.Enabled = false;
-                txtSifre.Enabled = false;
-                btnGiris.Enabled = false;
+            if (!System.IO.File.Exists(yol))
+            {
+                System.IO.File.WriteAllText(yol, "polat|1234|Personel" + Environment.NewLine);
             }
-            
-            else if (txtKullaniciAdi.Text == "polat" && txtSifre.Text == "1122")
+
+            string[] kullanicilar = System.IO.File.ReadAllLines(yol);
+            bool girisBasarili = false;
+
+            foreach (string kullanici in kullanicilar)
             {
-                girisYapildiMi = true;
-                MessageBox.Show("Öğrenci olarak giriş yaptınız. Kitap ödünç alabilir ya da iade edebilirsiniz.", "Kısıtlı Yetki", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (string.IsNullOrWhiteSpace(kullanici)) continue;
 
-                
-                button1.Enabled = false;
-                btnSil.Enabled = false;   
+                string[] bilgiler = kullanici.Split('|');
+                string dosyaKadi = bilgiler[0];
+                string dosyaSifre = bilgiler[1];
+                string yetki = bilgiler[2];
 
-                txtKullaniciAdi.Enabled = false;
-                txtSifre.Enabled = false;
-                btnGiris.Enabled = false;
+                if (txtKullaniciAdi.Text == dosyaKadi && txtSifre.Text == dosyaSifre)
+                {
+                    girisBasarili = true;
+                    aktifKullanici = dosyaKadi; 
+
+                    MessageBox.Show($"Giriş Başarılı! Keyfinize bakın! \nYetkiniz: {yetki}", "Hoş Geldiniz");
+                    girisYapildiMi = true;
+
+                    if (yetki == "Personel")
+                    {
+                        button1.Enabled = true; 
+                        btnSil.Enabled = true;  
+                        grpKullaniciYonetimi.Enabled = true; 
+                    }
+                    else 
+                    {
+                        button1.Enabled = false;
+                        btnSil.Enabled = false;
+                        grpKullaniciYonetimi.Enabled = false; 
+                    }
+
+                    txtKullaniciAdi.Enabled = false;
+                    txtSifre.Enabled = false;
+                    btnGiris.Enabled = false;
+
+                    break; 
+                }
             }
-            else
+
+            if (!girisBasarili)
             {
-                MessageBox.Show("Hatalı kullanıcı adı veya şifre! Seni tanıyamadık kral", "Hata");
+                MessageBox.Show("Hatalı kullanıcı adı veya şifre girdiniz! Seni tanıyamadık kral! ", "Giriş Başarısız");
             }
         }
 
@@ -223,6 +259,81 @@ namespace KutuphaneEnvanterSistemi
         private void tabPage3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnRaporla_Click(object sender, EventArgs e)
+        {
+            lstRapor.Items.Clear();
+            lstRapor.Items.Add("KULLANICI | İŞLEM | KİTAP | DURUM");
+            lstRapor.Items.Add("--------------------------------------------------");
+
+            string dosyaYolu = "rapor.txt";
+
+            if (System.IO.File.Exists(dosyaYolu))
+            {
+                string[] loglar = System.IO.File.ReadAllLines(dosyaYolu);
+                foreach (string satir in loglar)
+                {
+                    lstRapor.Items.Add(satir);
+                }
+            }
+            else
+            {
+                lstRapor.Items.Add("Sistemde henüz kayıtlı işlem yok.");
+            }
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnKullaniciEkle_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtAyarKadi.Text) || string.IsNullOrWhiteSpace(txtAyarSifre.Text) || cmbAyarYetki.SelectedIndex == -1)
+            {
+                MessageBox.Show("Lütfen tüm alanları doldurun ve yetki seçin!");
+                return;
+            }
+
+            string yeniKayit = $"{txtAyarKadi.Text}|{txtAyarSifre.Text}|{cmbAyarYetki.Text}";
+            System.IO.File.AppendAllText("kullanicilar.txt", yeniKayit + Environment.NewLine);
+
+            MessageBox.Show("Yeni kullanıcı başarıyla eklendi.");
+            txtAyarKadi.Clear();
+            txtAyarSifre.Clear();
+        }
+
+        private void btnKullaniciSil_Click(object sender, EventArgs e)
+        {
+            string yol = "kullanicilar.txt";
+            if (!System.IO.File.Exists(yol)) return;
+
+            string[] satirlar = System.IO.File.ReadAllLines(yol);
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(yol);
+
+            bool silindiMi = false;
+            foreach (string satir in satirlar)
+            {
+                if (string.IsNullOrWhiteSpace(satir)) continue;
+
+                if (satir.Split('|')[0] != txtAyarKadi.Text)
+                {
+                    sw.WriteLine(satir);
+                }
+                else
+                {
+                    silindiMi = true; 
+                }
+            }
+            sw.Close();
+
+            if (silindiMi)
+                MessageBox.Show("Kullanıcı başarıyla silindi.");
+            else
+                MessageBox.Show("Böyle bir kullanıcı bulunamadı.");
+
+            txtAyarKadi.Clear();
         }
     }
 }
